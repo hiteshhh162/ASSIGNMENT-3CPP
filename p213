@@ -1,0 +1,103 @@
+#include<iostream>
+#include<string.h>
+using namespace std;
+class account{
+
+    protected:
+    char n[100],t[100],no[15];
+    double bal;
+
+    public:
+        account( char ty[])
+        {
+            strcpy(t,ty);
+            cout<<"\nEnter account holder name :";
+            cin>>n;
+            cout<<"\nEnter account number :";
+            cin>>no;
+            
+            cout<<"\nEnter balance :";
+            cin>>bal;
+        }
+        void display()
+        {
+            cout<<"\nAccount name is :"<<n;
+            cout<<"\nAccount number is :"<<no;
+            cout<<"\nAccount type is :"<<t;
+            cout<<"\nAccount balance :"<<bal; 
+        }
+};
+class sav_acc:public account
+{
+    double intrest ,with;
+    public:
+    sav_acc(char t[]):account(t)
+    {
+        intrest = 7;
+        cout<<"\nYour intrest is :"<<intrest;
+        intrest=bal*intrest/100;
+        bal=bal+intrest;
+        cout<<"\nSaving account is not provide cheque book facility ...";
+    }
+
+    void withdraw()
+    {
+        while(1)
+        {
+            cout<<"\nEnter your withdraw ammount :";
+            cin>>with;
+            if(with<bal)
+            {
+                bal=bal-with;
+                cout<<"\nWithdraw successfully ....";
+                display();
+                break;
+            }
+        }
+    }
+
+};
+
+class curr_acc:public account
+{
+    double charge;
+    public:
+    curr_acc(char t[]):account(t)
+    {
+        charge=100;
+        cout<<"\nCurrent account provide cheque book facility...";
+    }
+
+    void checkbal()
+    {
+        if(bal<1500)
+        {
+            cout<<"\nYour balance is low compare to minimum level bonus ...";
+            cout<<"\nYou pay must be charge :"<<charge;
+            bal=bal-charge;
+        }
+        display();
+        
+    }
+
+};
+int main  ()
+{
+    char t[100];
+    while(1)
+    {
+        cout<<"\nEnter bank account type(saving) or(current) :";
+        cin>>t;
+
+        if(strcmp(t,"saving")==0)
+        {
+            sav_acc s(t);
+            s.withdraw();
+        }
+        else if (strcmp(t,"current")==0)
+        {
+            curr_acc c(t);
+            c.checkbal();
+        }
+        return 0;
+}
